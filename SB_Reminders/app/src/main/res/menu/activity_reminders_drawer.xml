@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/add_a_reminder"
+            android:icon="@drawable/ic_add_entry"
+            android:title="Add a Reminder" />
+        <item
+            android:id="@+id/refreshdb_app"
+            android:icon="@drawable/ic_exit_to_app"
+            android:title="Refresh the database" />
+        <item
+            android:id="@+id/exit_app"
+            android:icon="@drawable/ic_exit_to_app"
+            android:title="Exit" />
+    </group>
+</menu>
