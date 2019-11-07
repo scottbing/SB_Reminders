@@ -356,9 +356,10 @@ public class RemindersActivity extends AppCompatActivity
             Intent intent = new Intent(RemindersActivity.this, WebViewActivity.class);
             intent.putExtra("url", url);
             startActivity(intent);
-            //initializeDatabase();
-            //Update Cursor
-            mCursorAdapter.changeCursor(mDbAdapter.fetchAllReminders());
+        } else if (id == R.id.gestures_app) {
+            Log.d("Gestures", "Demonstrate Pinch Gesture");
+            Intent intent = new Intent(RemindersActivity.this, GesturesActivity.class);
+            startActivity(intent);
         } else if (id == R.id.exit_app) {
             finish();
         }
