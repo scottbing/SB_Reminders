@@ -2,9 +2,12 @@ package com.android.sb_reminders;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,6 +50,7 @@ public class RemindersActivity extends AppCompatActivity
     private DeleteConfirmationDialogFragment mdialogFragment;
     private FragmentManager fm;
     private int confirmFlag;
+    private String url = "http://www.google.com/";
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -262,6 +266,7 @@ public class RemindersActivity extends AppCompatActivity
         TextView titleView = (TextView) dialog.findViewById(R.id.custom_title);
         final EditText editCustom = (EditText) dialog.findViewById(R.id.custom_edit_reminder);
         Button commitButton = (Button) dialog.findViewById(R.id.custom_button_commit);
+        commitButton.setTextColor(Color.parseColor("#054d21"));
         final CheckBox checkBox = (CheckBox) dialog.findViewById(R.id.custom_check_box);
         LinearLayout rootLayout = (LinearLayout) dialog.findViewById(R.id.custom_root_layout);
         final boolean isEditOperation = (reminder != null);
@@ -295,6 +300,7 @@ public class RemindersActivity extends AppCompatActivity
                 dialog.dismiss();
             }
         });
+        buttonCancel.setTextColor(Color.parseColor("#054d21"));
         dialog.show();
     }
 
@@ -343,6 +349,14 @@ public class RemindersActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.refreshdb_app) {
             initializeDatabase();
+            //Update Cursor
+            mCursorAdapter.changeCursor(mDbAdapter.fetchAllReminders());
+        } else if (id == R.id.webview_app) {
+            Log.d("Google", "Access to Google");
+            Intent intent = new Intent(RemindersActivity.this, WebViewActivity.class);
+            intent.putExtra("url", url);
+            startActivity(intent);
+            //initializeDatabase();
             //Update Cursor
             mCursorAdapter.changeCursor(mDbAdapter.fetchAllReminders());
         } else if (id == R.id.exit_app) {
