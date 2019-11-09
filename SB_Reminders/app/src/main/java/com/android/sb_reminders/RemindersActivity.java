@@ -352,13 +352,17 @@ public class RemindersActivity extends AppCompatActivity
             //Update Cursor
             mCursorAdapter.changeCursor(mDbAdapter.fetchAllReminders());
         } else if (id == R.id.webview_app) {
-            Log.d("Google", "Access to Google");
+            Log.d("Android", "Access to android.com");
             Intent intent = new Intent(RemindersActivity.this, WebViewActivity.class);
             intent.putExtra("url", url);
             startActivity(intent);
         } else if (id == R.id.gestures_app) {
             Log.d("Gestures", "Demonstrate Pinch Gesture");
             Intent intent = new Intent(RemindersActivity.this, GesturesActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.camera_app) {
+            Log.d("Camera", "Take a Picture");
+            Intent intent = new Intent(RemindersActivity.this, CameraActivity.class);
             startActivity(intent);
         } else if (id == R.id.exit_app) {
             finish();
