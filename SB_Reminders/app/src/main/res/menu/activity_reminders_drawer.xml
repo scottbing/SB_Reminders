@@ -13,7 +13,7 @@
         <item
             android:id="@+id/webview_app"
             android:icon="@drawable/ic_internet_web_browser"
-            android:title="Google" />
+            android:title="Learn More About Android" />
         <item
             android:id="@+id/gestures_app"
             android:icon="@drawable/ic_touch_gesture_pinch"

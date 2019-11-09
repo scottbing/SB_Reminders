@@ -50,7 +50,7 @@ public class RemindersActivity extends AppCompatActivity
     private DeleteConfirmationDialogFragment mdialogFragment;
     private FragmentManager fm;
     private int confirmFlag;
-    private String url = "http://www.google.com";
+    private String url = "https://www.android.com";
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
