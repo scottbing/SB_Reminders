@@ -3,11 +3,15 @@ package com.android.sb_reminders;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
+import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
+import android.graphics.YuvImage;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -31,6 +35,8 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -74,6 +80,7 @@ public class CameraActivity extends AppCompatActivity {
     private ImageReader imageReader;
     private File file;
     private static final int REQUEST_CAMERA_PERMISSION = 200;
+    private static final int REQUEST_WRITE_STORAGE = 112;
     private boolean mFlashSupported;
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
@@ -192,10 +199,11 @@ public class CameraActivity extends AppCompatActivity {
                     Image image = null;
                     try {
                         image = reader.acquireLatestImage();
-                        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                        byte[] jpegData = ImageUtil.imageToByteArray(image);      // convert to JPEG format
+                        /*ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                         byte[] bytes = new byte[buffer.capacity()];
-                        buffer.get(bytes);
-                        save(bytes);
+                        buffer.get(jpegData);*/
+                        save(jpegData);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -209,6 +217,13 @@ public class CameraActivity extends AppCompatActivity {
                 private void save(byte[] bytes) throws IOException {
                     OutputStream output = null;
                     try {
+                        boolean hasPermission = (ContextCompat.checkSelfPermission(CameraActivity.this,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+                        if (!hasPermission) {
+                            ActivityCompat.requestPermissions(CameraActivity.this,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    REQUEST_WRITE_STORAGE);
+                        }
                         output = new FileOutputStream(file);
                         output.write(bytes);
                     } finally {
@@ -323,7 +338,14 @@ public class CameraActivity extends AppCompatActivity {
                 // close the app
                 Toast.makeText(CameraActivity.this, "Sorry!!!, you can't use this app without granting permission", Toast.LENGTH_LONG).show();
                 finish();
+            } else if (requestCode == REQUEST_WRITE_STORAGE) {
+                if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    // close the app
+                    Toast.makeText(CameraActivity.this, "Sorry!!!, you can't use this app without granting permission", Toast.LENGTH_LONG).show();
+                    finish();
+                }
             }
+
         }
     }
     @Override
@@ -345,3 +367,4 @@ public class CameraActivity extends AppCompatActivity {
         super.onPause();
     }
 }
+
