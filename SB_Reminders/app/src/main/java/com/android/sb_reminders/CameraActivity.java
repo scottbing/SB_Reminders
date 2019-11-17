@@ -43,6 +43,18 @@ import java.util.List;
 
 public class CameraActivity extends AppCompatActivity {
 
+    //
+    //
+    //
+    //
+    //
+    // Taken from the following Android Camera2 tutorial:
+    // https://inducesmile.com/android/android-camera2-api-example-tutorial/
+    //
+    //
+    //
+    //
+
     private static final String TAG = "CameraActivity";
     private Button takePictureButton;
     private TextureView textureView;

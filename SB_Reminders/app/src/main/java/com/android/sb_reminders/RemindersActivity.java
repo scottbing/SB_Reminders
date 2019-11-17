@@ -364,6 +364,10 @@ public class RemindersActivity extends AppCompatActivity
             Log.d("Camera", "Take a Picture");
             Intent intent = new Intent(RemindersActivity.this, CameraActivity.class);
             startActivity(intent);
+        } else if (id == R.id.compass_app) {
+            Log.d("Compass", "Compass");
+            Intent intent = new Intent(RemindersActivity.this, CompassActivity.class);
+            startActivity(intent);
         } else if (id == R.id.exit_app) {
             finish();
         }
